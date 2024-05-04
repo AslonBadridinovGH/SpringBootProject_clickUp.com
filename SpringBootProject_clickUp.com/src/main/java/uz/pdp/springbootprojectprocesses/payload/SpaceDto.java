@@ -1,0 +1,29 @@
+package uz.pdp.springbootprojectprocesses.payload;
+import lombok.Data;
+
+import javax.validation.constraints.NotNull;
+import java.util.UUID;
+
+
+@Data
+public class SpaceDto {
+
+
+    @NotNull
+    private String name;
+
+    private String color;
+
+    private Long workSpaceId;
+
+    private String  initialLetter;
+
+    private String accessType;
+
+    private UUID iconId;
+
+    private UUID avatarId;
+
+    private UUID ownerId;
+
+}
