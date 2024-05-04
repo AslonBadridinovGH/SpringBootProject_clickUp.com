@@ -5,5 +5,5 @@ import uz.pdp.springbootprojectprocesses.entity.les10_2.SpaceClickApps;
 
 import java.util.UUID;
 
-public interface SpaceClickAppsRepository extends JpaRepository<SpaceClickApps, UUID> {
+public interface SpaceClickAppsRepo extends JpaRepository<SpaceClickApps, UUID> {
 }

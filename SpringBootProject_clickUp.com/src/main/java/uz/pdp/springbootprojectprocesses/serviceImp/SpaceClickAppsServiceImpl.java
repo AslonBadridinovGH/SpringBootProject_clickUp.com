@@ -6,10 +6,11 @@ import org.springframework.stereotype.Service;
 import uz.pdp.springbootprojectprocesses.entity.les10_2.SpaceClickApps;
 import uz.pdp.springbootprojectprocesses.payload.ApiResponse;
 import uz.pdp.springbootprojectprocesses.payload.SpaceClickAppsDto;
+import uz.pdp.springbootprojectprocesses.repository.SpaceClickAppsRepo;
 import uz.pdp.springbootprojectprocesses.serviceInterface.SpaceClickAppsService;
 import uz.pdp.springbootprojectprocesses.repository.ClickAppsRepository;
-import uz.pdp.springbootprojectprocesses.repository.SpaceClickAppsRepository;
 import uz.pdp.springbootprojectprocesses.repository.SpaceRepository;
+
 
 import java.util.UUID;
 
@@ -20,9 +21,9 @@ public class SpaceClickAppsServiceImpl implements SpaceClickAppsService {
     SpaceRepository spaceRepository;
     @Autowired
     ClickAppsRepository clickAppsRepository;
-    @Autowired
-    SpaceClickAppsRepository spaceClickAppsRepository;
 
+    @Autowired
+    SpaceClickAppsRepo repo;
 
     @Override
     public ApiResponse addSpaceClickApps(SpaceClickAppsDto clickAppsDto) {
@@ -30,17 +31,17 @@ public class SpaceClickAppsServiceImpl implements SpaceClickAppsService {
          SpaceClickApps clickApps=new SpaceClickApps();
         clickApps.setSpace(spaceRepository.findById(clickAppsDto.getSpaceID()).orElseThrow(() -> new ResourceNotFoundException("not found")));
         clickApps.setClickApps(clickAppsRepository.findById(clickAppsDto.getClickAppsID()).orElseThrow(() -> new ResourceNotFoundException("not found")));
-        spaceClickAppsRepository.save(clickApps);
+        repo.save(clickApps);
         return new ApiResponse("saved",true);
     }
 
     @Override
     public ApiResponse editSpaceClickApps(SpaceClickAppsDto clickAppsDto, UUID id) {
 
-         SpaceClickApps clickApps = spaceClickAppsRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("not found"));
+         SpaceClickApps clickApps = repo.findById(id).orElseThrow(() -> new ResourceNotFoundException("not found"));
         clickApps.setSpace(spaceRepository.findById(clickAppsDto.getSpaceID()).orElseThrow(() -> new ResourceNotFoundException("not found")));
         clickApps.setClickApps(clickAppsRepository.findById(clickAppsDto.getClickAppsID()).orElseThrow(() -> new ResourceNotFoundException("not found")));
-        spaceClickAppsRepository.save(clickApps);
+        repo.save(clickApps);
         return new ApiResponse("edited",true);
     }
 
@@ -48,7 +49,7 @@ public class SpaceClickAppsServiceImpl implements SpaceClickAppsService {
     public ApiResponse deleteSpaceClickApps(UUID id) {
 
         try {
-            spaceClickAppsRepository.deleteById(id);
+            repo.deleteById(id);
             return new ApiResponse("deleted",true);
         }catch (Exception e){
             return new ApiResponse("not deleted",false);
